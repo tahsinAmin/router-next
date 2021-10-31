@@ -1,7 +1,14 @@
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { VehiclePerson } from '../../../api/VehiclePerson';
 
-export default function Person({ ownersList }) {
+export interface PersonProps{
+   ownersList?: VehiclePerson[];
+
+}
+
+export default function Person({ ownersList } : PersonProps) {
    const router = useRouter();
 
    const [owners, setOwners] = useState(ownersList);
@@ -15,29 +22,35 @@ export default function Person({ ownersList }) {
          setOwners(ownersList);
       }
 
-      if(ownersList.length == 0) {
+      if(ownersList?.length == 0) {
          loadData();
       }
    }, [])
 
-   if(!owners[0]) {
+   if(!owners?.[0]) {
       return <div>loading...</div>
    }
    return <pre>{owners[0]?.details}</pre>
 }
 
-Person.getInitialProps = async ctx => {
-    if(!ctx.req) {
-        return { ownersList: [] };
-    }
+interface MyNextPageContext extends NextPageContext{
+   query : {
+      person: string;
+      vehicle: string;
+   }
+}
 
-  const { query } = ctx;
+Person.getInitialProps = async ({query,req} : MyNextPageContext) => {
+   if(!req) {
+      return { ownersList: [] };
+   }
+
   const response = await fetch(
     'http://localhost:4001/vehicles?ownerName=' +
       query.person +
       '&vehicle=' +
       query.vehicle
   );
-  const ownersList = await response.json();
+  const ownersList : VehiclePerson[] | undefined = await response.json();
   return { ownersList: ownersList };
 };
