@@ -11,15 +11,16 @@ datasource db {
 }
 
 model Person {
-  id Int @id @default(autoincrement())
-  name STRING
-  email STRING
+  id    Int    @id @default(autoincrement())
+  name  String?
+  email String     @unique
+  vehicles Vehicle[]
 }
 
 model Vehicle {
-  id Int @id @default(autoincrement())
-  brand String
-  model String
-  owner   User @relation(fields: [ownerId], references: [id])
-  ownerId Int // relation scalar field  (used in the `@relation` attribute above)
+  id       Int  @id @default(autoincrement())
+  brand   String?
+  model   String?
+  owner   Person? @relation(fields: [ownerId], references: [id])
+  ownerId Int
 }

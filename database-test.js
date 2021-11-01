@@ -1,14 +1,21 @@
-const sqlite = require('sqlite');
+import {PrismaClient} from '@prisma/client'
 
-async function setup() {
-    const db = await sqlite.open('./mydb.sqlite');
-    await db.migrate({force: 'last'});
+const prisma = new PrismaClient()
 
-    const people = await db.all('SELECT * FROM person');
-    console.log('ALL PEOPLE', JSON.stringify(people, null, 2));
-
-    const vehicles = await db.all('SELECT * FROM vehicle');
-    console.log('ALL VEHICLES', JSON.stringify(vehicles, null, 2));
+async function setup({ data }) {
+    const [formData, setFormData] = useState({})
+    const [people, setPeople] = useState(data)
+    console.log('Every Person', JSON.stringify(people));
 }
 
 setup();
+
+export async function getServerSideProps() {
+    const people = await prisma.person.findMany()
+
+    return {
+        props: {
+            data: people
+        }
+    }
+}

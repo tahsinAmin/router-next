@@ -8,7 +8,7 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "incremental": true,
@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/containers/Homepage.js", "src/pages/index.js", "src/pages/api/people.js", "src/pages/api/person/[id]/vehicles.js", "src/pages/api/vehicle/[id].js", "src/pages/api/vehicle/[id].js", "src/pages/api/person/[id]/index.js"  ],
   "exclude": [
     "node_modules"
   ]

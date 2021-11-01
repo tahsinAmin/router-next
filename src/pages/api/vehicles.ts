@@ -1,8 +1,11 @@
-import {NextApiRequest, NextApiResponse} from 'next'
+import { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-export default function getAllVehices(req: NextApiRequest, res: NextApiResponse) {
-   if(req.method !== 'GET') {
-      res.json({message:'sorry, we only accept GET'});
-   }
-   res.json({hello:'world', method:req.method});
+export default async function getAllVehices(req: NextApiRequest, res: NextApiResponse) {
+   
+   const vehicles = await prisma.vehicle.findMany()
+
+   res.json(vehicles);
+
 }
