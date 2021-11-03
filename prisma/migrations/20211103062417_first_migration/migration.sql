@@ -1,8 +1,9 @@
--- CreateTable
+npx prisma studio-- CreateTable
 CREATE TABLE "Person" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT,
-    "email" TEXT NOT NULL
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL
 );
 
 -- CreateTable

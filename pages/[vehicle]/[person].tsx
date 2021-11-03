@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { VehiclePerson } from '../../../api/VehiclePerson';
+import { VehiclePerson } from '../../api/VehiclePerson';
 
 export interface PersonProps{
    ownersList?: VehiclePerson[];
@@ -25,7 +25,7 @@ export default function Person({ ownersList } : PersonProps) {
       if(ownersList?.length == 0) {
          loadData();
       }
-   }, [])
+   }, []);
 
    if(!owners?.[0]) {
       return <div>loading...</div>

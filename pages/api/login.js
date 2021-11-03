@@ -1,0 +1,30 @@
+import { PrismaClient } from "@prisma/client";
+import { compare, hash } from "bcrypt";
+import { sign } from 'jsonwebtoken'
+
+export default async function signUp(req, res) {
+   const prisma = new PrismaClient();
+
+   if(req.method === 'POST'){
+      const person = await prisma.person.findFirst({
+         where: {
+            email:req.body.email
+         }
+      });
+      
+      compare(req.body.password, person.password, async function(err, result) {
+         if(!err && result){
+            const claims = { sub:person.id, myPersonEmail: person.email };
+
+            const jwt = sign( claims, env("secret"),  { expiresIn: '1h' });
+            res.json({awthToken: jwt});
+         } else {
+            res.json({message: 'OOPS!! Something went wrong'});
+         }
+      });
+      
+
+   } else {
+      res.status(405).json({message: 'We only support POST'});
+   }
+}
